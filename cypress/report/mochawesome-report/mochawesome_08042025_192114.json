@@ -1,0 +1,125 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-08-04T12:21:10.200Z",
+    "end": "2025-08-04T12:21:14.818Z",
+    "duration": 4618,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "63d6a3ed-f5dd-421d-b197-e0b126791beb",
+      "title": "",
+      "fullFile": "cypress\\e2e\\component.cy.js",
+      "file": "cypress\\e2e\\component.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fa317eb1-b8de-4105-8239-2502be47259d",
+          "title": "Component",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "✅ Detail Component Check",
+              "fullTitle": "Component ✅ Detail Component Check",
+              "timedOut": null,
+              "duration": 2047,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(\".inventory_item_name\").first().click();\ncy.get(\".inventory_details_back_button\").click();",
+              "err": {},
+              "uuid": "5c3a70b6-a674-45bc-827a-097767292d1f",
+              "parentUUID": "fa317eb1-b8de-4105-8239-2502be47259d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "✅ Dropdown Component Check",
+              "fullTitle": "Component ✅ Dropdown Component Check",
+              "timedOut": null,
+              "duration": 2427,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(\"#react-burger-menu-btn\").should(\"exist\");\ncy.get(\".shopping_cart_link\").should(\"exist\");\n// dropdown //\n// a-z\nlet initialProductNames;\ncy.get(\".inventory_item_name\").then($elements => {\n  initialProductNames = Cypress._.map($elements, \"innerText\");\n  cy.log(\"Initial product names (before any sorting):\", initialProductNames);\n});\ncy.get(\"span.select_container\").click();\ncy.get(\"select.product_sort_container\").select(\"az\");\ncy.get(\"select.product_sort_container option:selected\").should(\"have.text\", \"Name (A to Z)\").should(\"have.value\", \"az\");\ncy.get(\".inventory_item_name\").then($elements => {\n  const sortedNamesFromUI = Cypress._.map($elements, \"innerText\");\n  cy.log(\"Names from UI after sorting (A to Z):\", sortedNamesFromUI);\n  const expectedSortedNames = [...initialProductNames].sort((a, b) => a.localeCompare(b));\n  cy.log(\"Expected sorted names (A to Z - JS sort):\", expectedSortedNames, JSON.stringify(expectedSortedNames, null, 2));\n  expect(sortedNamesFromUI).to.deep.equal(expectedSortedNames);\n});\n// z - a\ncy.get(\"span.select_container\").click();\ncy.get(\"select.product_sort_container\").select(\"za\");\ncy.get(\"select.product_sort_container option:selected\").should(\"have.text\", \"Name (Z to A)\").should(\"have.value\", \"za\");\ncy.get(\".inventory_item_name\").then($elements => {\n  const sortedNamesFromUI = Cypress._.map($elements, \"innerText\");\n  cy.log(\"Names from UI after sorting (Z to A):\", sortedNamesFromUI);\n  const expectedSortedNames = [...initialProductNames].sort((a, b) => b.localeCompare(a));\n  cy.log(\"Expected sorted names (Z to A - JS sort):\", expectedSortedNames, JSON.stringify(expectedSortedNames, null, 2));\n  expect(sortedNamesFromUI).to.deep.equal(expectedSortedNames);\n});\n// low - high\nlet initialProductPrices;\ncy.get(\".inventory_item_price\").then($elements => {\n  initialProductPrices = Cypress._.map($elements, el => {\n    return parseFloat(el.innerText.replace(\"$\", \"\"));\n  });\n  cy.log(\"Initial product prices (before any sorting - as numbers):\", initialProductPrices);\n});\ncy.get(\"span.select_container\").click();\ncy.get(\"select.product_sort_container\").select(\"lohi\");\ncy.get(\"select.product_sort_container option:selected\").should(\"have.text\", \"Price (low to high)\").should(\"have.value\", \"lohi\");\ncy.get(\".inventory_item_price\").then($elements => {\n  const sortedPrices = Cypress._.map($elements, el => {\n    return parseFloat(el.innerText.replace(\"$\", \"\"));\n  });\n  cy.log(\"Actual sorted prices (from DOM - as numbers):\", sortedPrices);\n  const expectedSortedPrices = [...initialProductPrices].sort((a, b) => a - b);\n  cy.log(\"Expected sorted prices (Low to High - JS sort - as numbers):\", expectedSortedPrices, JSON.stringify(expectedSortedPrices, null, 2));\n  expect(sortedPrices).to.deep.equal(expectedSortedPrices);\n});\n// high - low\ncy.get(\"span.select_container\").click();\ncy.get(\"select.product_sort_container\").select(\"hilo\");\ncy.get(\"select.product_sort_container option:selected\").should(\"have.text\", \"Price (high to low)\").should(\"have.value\", \"hilo\");\ncy.get(\".inventory_item_price\").then($elements => {\n  const sortedPrices = Cypress._.map($elements, el => {\n    return parseFloat(el.innerText.replace(\"$\", \"\"));\n  });\n  cy.log(\"Actual sorted prices (from DOM - as numbers):\", sortedPrices);\n  const expectedSortedPrices = [...initialProductPrices].sort((a, b) => b - a);\n  cy.log(\"Expected sorted prices (Low to High - JS sort - as numbers):\", expectedSortedPrices, JSON.stringify(expectedSortedPrices, null, 2));\n  expect(sortedPrices).to.deep.equal(expectedSortedPrices);\n});",
+              "err": {},
+              "uuid": "42c60bff-3f06-4ab1-8fb0-c75706322613",
+              "parentUUID": "fa317eb1-b8de-4105-8239-2502be47259d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "5c3a70b6-a674-45bc-827a-097767292d1f",
+            "42c60bff-3f06-4ab1-8fb0-c75706322613"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4474,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/report/mochawesome-report",
+        "overwrite": true,
+        "html": true,
+        "json": true,
+        "timestamp": "mmddyyyy_HHMMss"
+      },
+      "version": "6.2.0"
+    }
+  }
+}
