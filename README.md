@@ -1,4 +1,4 @@
-## Swag Labs - QA Portofolio
+## Swag Labs - QA Project
 
 **Video Automation Testing**
 
